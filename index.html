@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Page</title>
+  <style>
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    
+
+    /* Slideshow styles */
+    .slides {
+      display: none;
+    }
+
+    /* Tab styles */
+    .tab-content {
+      display: none;
+      padding: 20px;
+      background-color: #f1f1f1;
+    }
+
+    .tab-button.active {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    /* Simple fade-in effect */
+    .fade {
+      animation: fadeIn 0.5s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Button to change text and color -->
+  <button class="changeTextButton">Click Me</button>
+
+  <!-- Slideshow -->
+  <div class="slideshow-container">
+    <div class="slides fade"><img src="https://via.placeholder.com/600x300/FF5733/FFFFFF?text=Slide+1" style="width:100%"></div>
+    <div class="slides fade"><img src="https://via.placeholder.com/600x300/33FF57/FFFFFF?text=Slide+2" style="width:100%"></div>
+    <div class="slides fade"><img src="https://via.placeholder.com/600x300/3357FF/FFFFFF?text=Slide+3" style="width:100%"></div>
+    <button class="prevBtn">Prev</button>
+    <button class="nextBtn">Next</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-button" onclick="openTab('Tab1')">Tab 1</button>
+    <button class="tab-button" onclick="openTab('Tab2')">Tab 2</button>
+    <button class="tab-button" onclick="openTab('Tab3')">Tab 3</button>
+
+    <div class="tab-content Tab1 fade">
+      <h3>Tab 1 Content</h3>
+      <p>This is the content of Tab 1.</p>
+    </div>
+    <div class="tab-content Tab2 fade">
+      <h3>Tab 2 Content</h3>
+      <p>This is the content of Tab 2.</p>
+    </div>
+    <div class="tab-content Tab3 fade">
+      <h3>Tab 3 Content</h3>
+      <p>This is the content of Tab 3.</p>
+    </div>
+  </div>
+
+  <script>
+    
+    document.querySelector(".changeTextButton").addEventListener("click", function() {
+      var button = document.querySelector(".changeTextButton");
+      button.textContent = button.textContent === "Click Me" ? "You Clicked Me!" : "Click Me";
+      button.style.backgroundColor = button.style.backgroundColor === "rgb(76, 175, 80)" ? "#FF5733" : "#4CAF50";
+    });
+
+    
+    let slideIndex = 0;
+    const slides = document.querySelectorAll(".slides");
+
+    function changeSlide(n) {
+      slideIndex += n;
+      if (slideIndex >= slides.length) slideIndex = 0;
+      if (slideIndex < 0) slideIndex = slides.length - 1;
+      for (let slide of slides) slide.style.display = "none";
+      slides[slideIndex].style.display = "block";
+    }
+
+    document.querySelector(".prevBtn").addEventListener("click", () => changeSlide(-1));
+    document.querySelector(".nextBtn").addEventListener("click", () => changeSlide(1));
+
+    
+    function openTab(tabName) {
+      let tabContents = document.querySelectorAll(".tab-content");
+      tabContents.forEach(content => content.style.display = "none");
+      let tabButtons = document.querySelectorAll(".tab-button");
+      tabButtons.forEach(button => button.classList.remove("active"));
+      document.querySelector(`.${tabName}`).style.display = "block";
+      event.currentTarget.classList.add("active");
+    }
+
+    
+    document.querySelector(".tab-button").click();
+
+    
+    changeSlide(0);
+  </script>
+
+</body>
+</html>

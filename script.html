@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Validation</title>
+  <style>
+    input {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .error {
+      color: red;
+      font-size: 12px;
+    }
+
+    .valid {
+      color: green;
+      font-size: 12px;
+    }
+
+    .feedback {
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Form Validation</h2>
+
+  <form id="myForm">
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required>
+    <div id="emailFeedback" class="feedback"></div><br>
+
+    <label for="password">Password (Min 8 characters):</label><br>
+    <input type="password" id="password" name="password" required>
+    <div id="passwordFeedback" class="feedback"></div><br>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    // Select form fields and feedback elements
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const emailFeedback = document.getElementById("emailFeedback");
+    const passwordFeedback = document.getElementById("passwordFeedback");
+
+    // Real-time feedback for email
+    emailInput.addEventListener("input", function() {
+      validateEmail();
+    });
+
+    // Real-time feedback for password
+    passwordInput.addEventListener("input", function() {
+      validatePassword();
+    });
+
+    // Form submission handler
+    document.getElementById("myForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent the form from submitting for demo purposes
+
+      let isValid = true;
+
+      // Validate email
+      if (!validateEmail()) {
+        isValid = false;
+      }
+
+      // Validate password
+      if (!validatePassword()) {
+        isValid = false;
+      }
+
+      if (isValid) {
+        alert("Form submitted successfully!");
+      } else {
+        alert("Please fix the errors before submitting.");
+      }
+    });
+
+    // Validate email format
+    function validateEmail() {
+      const email = emailInput.value;
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      if (!email) {
+        emailFeedback.textContent = "Email is required.";
+        emailFeedback.classList.remove("valid");
+        emailFeedback.classList.add("error");
+        return false;
+      } else if (!emailPattern.test(email)) {
+        emailFeedback.textContent = "Invalid email format.";
+        emailFeedback.classList.remove("valid");
+        emailFeedback.classList.add("error");
+        return false;
+      } else {
+        emailFeedback.textContent = "Valid email!";
+        emailFeedback.classList.remove("error");
+        emailFeedback.classList.add("valid");
+        return true;
+      }
+    }
+
+    // Validate password length
+    function validatePassword() {
+      const password = passwordInput.value;
+      if (password.length < 8) {
+        passwordFeedback.textContent = "Password must be at least 8 characters.";
+        passwordFeedback.classList.remove("valid");
+        passwordFeedback.classList.add("error");
+        return false;
+      } else {
+        passwordFeedback.textContent = "Password is strong!";
+        passwordFeedback.classList.remove("error");
+        passwordFeedback.classList.add("valid");
+        return true;
+      }
+    }
+  </script>
+
+</body>
+</html>
